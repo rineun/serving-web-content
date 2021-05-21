@@ -3,6 +3,7 @@ package com.example.servingwebcontent.controller;
 import com.example.servingwebcontent.domain.Board;
 import com.example.servingwebcontent.domain.User;
 import com.example.servingwebcontent.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
@@ -11,20 +12,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 class UserApiController {
 
     @Autowired
     private  UserRepository repository;
 
 
-
-    // Aggregate root
-    // tag::get-aggregate-root[]
     @GetMapping("/users")
     List<User> all() {
-        return repository.findAll();
+        
+        //return repository.findAll();
+        List<User> users = repository.findAll();
+
+        log.debug("size 호출 전");
+        log.debug("size 호출 () :{}", users.get(0).getBoards().size());
+
+        log.debug("size 호출 후");
+        return users;
     }
-    // end::get-aggregate-root[]
+
 
     @PostMapping("/users")
     User newUser(@RequestBody User newUser) {

@@ -1,0 +1,67 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head('사용자')">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('user')">
+
+</nav>
+
+
+<div  class="container">
+    <form action="#" th:action="@{/account/form}" th:object="${user}" method="post">
+        <input type="hidden"th:field="*{id}">
+        <div class="form-group">
+            <label for="username">사용자이름</label>
+            <input type="text" class="form-control"
+                   th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" id="username" placeholder="username" th:field="*{username}">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+                제목에러
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">패스워드</label>
+            <input type="password" class="form-control"
+                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" id="password" placeholder="password" th:field="*{password}">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                제목에러
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="enabled">사용여부</label>
+            <input type="checkbox" id="enabled" name="enabled" th:checked="${enabled}" th:field="*{enabled}"/>
+        </div>
+        <div class="form-group">
+            <label for="roles">사용권한</label>
+            <div class="input-group">
+            <div class="input-group-prepend form-control"  id="roles" th:each="role : ${roles}">
+                <div class="input-group-text" >
+                    <input type="checkbox"
+                           name="roles"
+                           th:text="${role.name}"
+                           th:value="${role.id}"
+                           th:field="*{roles}"
+                           aria-label="Checkbox for following text input">
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="text-right">
+            <a th:href="@{/account/list}" class="btn btn-primary">취소</a>
+            <button type="submit" class="btn btn-primary">확인</button>
+        </div>
+    </form>
+
+</div>
+
+
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -25,7 +25,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) //부모가 없는건 삭제!!
+    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) //부모가 없는건 삭제!!
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY) //board를 부를때 사
     private List<Board> boards = new ArrayList<>();
+
+    // ~One, EAGER(default) -> 처음붜
+    // ~Many, LAZY (default) ->필요할때
 
 }
