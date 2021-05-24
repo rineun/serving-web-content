@@ -66,6 +66,7 @@
         <tr>
             <th scope="col">번호</th>
             <th scope="col">제목</th>
+            <th scope="col">내용</th>
             <th scope="col">작성자</th>
         </tr>
         </thead>
@@ -73,6 +74,7 @@
         <tr th:each="board : ${boards}" >
             <td th:text="${board.id}">1</td>
             <td ><a th:text="${board.title}" th:href="@{/board/form(id=${board.id})}">Mark</a></td>
+            <td th:text="${board.content}">ㄴㅐ용</td>
             <td th:text="${board.user.username}">홍길동</td>
         </tr>
         </tbody>

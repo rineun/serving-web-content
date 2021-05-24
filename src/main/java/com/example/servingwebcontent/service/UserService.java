@@ -40,14 +40,18 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User saveAmdin(User user){
+    public User saveAmdin(User user, String passwordReset){
 
-            if(user.getPassword().isEmpty()){
-                System.out.println("inininininini");
-              user.setPassword(null);
-            }
-
-
-        return userRepository.save(user);
+        if(!passwordReset.equals("")){
+            String encodePassword = passwordEncoder.encode(passwordReset);
+            user.setPassword(encodePassword);
+            return userRepository.save(user);
+        }else{
+            User userById = userRepository.findById(user.getId()).orElse(null);
+            userById.setUsername(user.getUsername());
+            userById.setEnabled(user.getEnabled());
+            userById.setRoles(user.getRoles());
+            return userRepository.save(userById);
+        }
     }
 }

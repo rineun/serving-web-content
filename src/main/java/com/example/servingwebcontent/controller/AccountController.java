@@ -86,9 +86,9 @@ public class AccountController {
 
 
     @PostMapping("/form")
-    public String accountPost(User user ){
+    public String accountPost(User user, @RequestParam(required = false, defaultValue = "") String passwordReset){
 
-        userService.saveAmdin(user);
+        userService.saveAmdin(user, passwordReset);
         return "redirect:/account/list";
     }
 
