@@ -20,6 +20,7 @@
 <div  class="container">
     <form action="#" th:action="@{/board/form}" th:object="${board}" method="post">
         <input type="hidden"th:field="*{id}">
+        <!--<input type="hidden" name="prevCatId" value="*{board.category.id}">-->
         <div class="form-group">
             <label for="title">제목</label>
             <input type="text" class="form-control"
@@ -36,6 +37,18 @@
                 내용에러
             </div>
         </div>
+        <div class="form-group">
+            <label for="category">카테고리</label>
+            <select class="form-control" th:field="*{category}" id="category">
+                <option value="0"> 선택 </option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat?.id}"
+                        th:text="${cat?.name}">
+
+                </option>
+            </select>
+        </div>
+
         <div class="text-right">
             <a th:href="@{/board/list}" class="btn btn-primary">취소</a>
             <button type="submit" class="btn btn-primary">확인</button>

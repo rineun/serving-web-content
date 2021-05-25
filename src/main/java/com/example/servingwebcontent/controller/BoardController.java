@@ -1,10 +1,13 @@
 package com.example.servingwebcontent.controller;
 
 import com.example.servingwebcontent.domain.Board;
+import com.example.servingwebcontent.domain.Category;
 import com.example.servingwebcontent.repository.BoardRepository;
+import com.example.servingwebcontent.repository.CategoryRepository;
 import com.example.servingwebcontent.service.BoardService;
 import com.example.servingwebcontent.validator.BoardValidator;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +23,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@Slf4j
 @RequestMapping("/board")
 public class BoardController {
 
@@ -28,6 +32,9 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private BoardValidator boardValidator;
@@ -64,17 +71,34 @@ public class BoardController {
             model.addAttribute("board", board);
         }
 
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+
         return "board/form";
     }
 
     @PostMapping("/form")
-    public String greetingSubmit(@Valid Board board, BindingResult bindingResult, Authentication authentication) {
+    public String greetingSubmit(@Valid Board board, BindingResult bindingResult, Authentication authentication, @RequestParam(required = false) Long  prevCatId) {
         boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             return "board/form";
         }
+        log.debug("prevCatId 호출 () :{}", prevCatId);
+        log.debug("board.getCategory().getId() 호출  :{}", board.getCategory().getId());
         String username = authentication.getName();
-        boardService.save(username, board);
+
+        if(prevCatId == null ) {
+            log.debug("prevCatId null !!!:{}", prevCatId);
+            boardService.save(username, board);
+        }else {
+            if(board.getCategory().getId() != prevCatId){
+                log.debug("prevCatId !=== getId");
+            }else{
+                log.debug("prevCatId== getId");
+            }
+            // boardService.save(username, board);
+        }
+
         // boardRepository.save(board);
         return "redirect:/board/list";
     }

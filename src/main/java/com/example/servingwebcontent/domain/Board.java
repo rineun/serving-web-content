@@ -23,4 +23,18 @@ public class Board {
     @JsonIgnore
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Category category;
+
+
+
+    public void  addCatTotal(){
+        category.addTotal();
+    }
+
+    public void  rempveCatTotal(){
+        category.deleteTotal();
+    }
 }

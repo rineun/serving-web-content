@@ -27,6 +27,9 @@
             <li class="nav-item" th:classappend="${menu} =='board'? 'active'">
                 <a class="nav-link" href="#" th:href="@{/board/list}">게시판 <span class="sr-only" th:if="${menu}== 'board'">(current)</span></a>
             </li>
+            <li sec:authorize="hasRole('ROLE_USER')" class="nav-item" th:classappend="${menu} =='category'? 'active'">
+                <a class="nav-link" href="#" th:href="@{/category/list}"> 카테고리  <span class="sr-only" th:if="${menu}== 'category'">(current)</span></a>
+            </li>
             <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item" th:classappend="${menu} =='user'? 'active'">
                 <a class="nav-link" href="#" th:href="@{/account/list}"> 사용자  <span class="sr-only" th:if="${menu}== 'user'">(current)</span></a>
             </li>

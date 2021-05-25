@@ -18,6 +18,8 @@ public class BoardService {
     public Board save(String username, Board board){
         User user = userRepository.findByUsername(username);
         board.setUser(user);
+        board.addCatTotal();
+
         return boardRepository.save(board);
 
     }
